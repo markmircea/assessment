@@ -11,6 +11,10 @@ class Journal extends Model
 
     protected $fillable = ['store_id', 'date', 'revenue', 'food_cost', 'labor_cost', 'profit'];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function store()
     {
         return $this->belongsTo(Store::class);
