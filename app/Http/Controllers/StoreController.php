@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+    use AuthorizesRequests;
+
     public function show(Request $request, Store $store)
     {
-        if (!$request->user()->stores()->where('stores.id', $store->id)->exists()) {
-            abort(403);
-        }
+        $this->authorize('view', $store);
 
         $store->load('brand');
         $journals = $store->journals()->orderByDesc('date')->paginate(30);
