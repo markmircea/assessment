@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StoreController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/export/download/{path}', [ExportController::class, 'download'])
         ->where('path', '[a-zA-Z0-9_.\-]+')
         ->name('export.download');
+
+    Route::get('/stores/{store}', [StoreController::class, 'show'])->name('stores.show');
 
 });
 

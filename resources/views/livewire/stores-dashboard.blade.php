@@ -59,7 +59,9 @@
                     @forelse ($stores as $store)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                {{ $store->number }}
+                                <a href="{{ route('stores.show', $store) }}" class="text-blue-600 hover:underline">
+                                    {{ $store->number }}
+                                </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded text-white" style="background-color: {{ $store->brand->color }}">
