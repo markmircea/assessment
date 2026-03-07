@@ -23,9 +23,26 @@
             @endforeach
         </div>
 
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">
-            {{ $currentBrand ? $currentBrand->name . ' Stores' : 'All Stores' }}
-        </h2>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">
+                {{ $currentBrand ? $currentBrand->name . ' Stores' : 'All Stores' }}
+            </h2>
+            <form method="POST" action="{{ route('export.store') }}">
+                @csrf
+                @if ($currentBrandId)
+                    <input type="hidden" name="brand_id" value="{{ $currentBrandId }}">
+                @endif
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium">
+                    Export CSV
+                </button>
+            </form>
+        </div>
+
+        @if (session('success'))
+            <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" wire:loading.class="opacity-50">
             <table class="min-w-full divide-y divide-gray-200">
@@ -39,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach ($stores as $store)
+                    @forelse ($stores as $store)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 {{ $store->number }}
@@ -59,7 +76,11 @@
                                 ${{ number_format($store->journals_sum_profit, 2) }}
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">No stores found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
                 <tfoot class="bg-gray-50 font-medium">
                     <tr>
