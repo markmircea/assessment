@@ -24,12 +24,24 @@ php artisan migrate --seed
 php artisan storage:link
 
 
+## Mail
+
+Configure your `.env` with mail credentials for the export email feature:
+
+
 ## Running
 
 
 php artisan serve
 php artisan queue:work
 npm run dev
+
+
+## Export Cleanup
+
+CSV exports are stored in `storage/app/private/exports/`. Set up a cron job to remove files older than 48 hours (or however you want to keep them):
+
+0 0 * * * find /path/to/project/storage/app/private/exports -name "*.csv" -mmin +2880 -delete
 
 
 ## Test Accounts
